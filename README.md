@@ -4,7 +4,7 @@
 
 ## Запуск сервисов локально
 
-Для начала скоипровать проект себе на компьютер:
+Для начала необходимо скопировать проект себе на компьютер:
 ```bash
 git clone git@github.com:DorianGrayPicture/mentor_seminar_final_project.git
 ```
@@ -40,4 +40,16 @@ docker run -d -p 8000:8000 -v todo-db:/app/data todo-appp:latest
 3. Перейти по ссылке:
 ```url
 http://0.0.0.0:8000
+```
+
+## Запуск сервисов удаленно 
+
+### Short URL-сервис
+```bash
+docker run -d -p 8000:8000 -v todo_data:/app/data deobject/todo-service:latest
+````
+
+### TODO-сервис
+```bash
+docker run -d -p 8001:8000 -v shorturl_data:/app/data deobject/short-url-serive:latest
 ```
