@@ -1,7 +1,6 @@
 import string
 import random
-from typing import Optional
-from fastapi import FastAPI, HTTPException, Request, Depends
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, HttpUrl
 from sqlalchemy.orm import Session
@@ -30,9 +29,9 @@ def generate_short_id(length=6):
     return ''.join(random.choice(chars) for _ in range(length))
 
 
+# Принимает полный URL и возвращает короткую ссылку
 @app.post("/shorten")
 def shorten_url(item: URLCreate, db: Session = Depends(get_db)):
-    # Генерируем уникальный short_id
     for _ in range(10):
         short_id = generate_short_id()
         print(short_id)
@@ -46,14 +45,16 @@ def shorten_url(item: URLCreate, db: Session = Depends(get_db)):
     raise HTTPException(status_code=500, detail="Не удалось сгенерировать короткую ссылку")
 
 
+# Перенаправляет на полный URL, если он существует
 @app.get("/{short_id}")
 def redirect_to_full(short_id: str, db: Session = Depends(get_db)):
     url_item = db.query(URLItem).filter(URLItem.short_id == short_id).first()
     if not url_item:
         raise HTTPException(status_code=404, detail="Короткая ссылка не найдена")
-    return RedirectResponse(url=url_item.full_url, status_code=302)   # изменен статус для редиректа
+    return RedirectResponse(url=url_item.full_url, status_code=302) 
 
 
+# Вовращает JSON с информацией о полном URL
 @app.get("/stats/{short_id}")
 def get_stats(short_id: str, db: Session = Depends(get_db)):
     url_item = db.query(URLItem).filter(URLItem.short_id == short_id).first()
