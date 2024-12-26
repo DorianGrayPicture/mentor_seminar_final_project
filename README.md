@@ -4,7 +4,7 @@
 
 ## Запуск TODO-Сервиса
 
-1. Собрать проект (нахоядсь в директории short-url-app):
+1. Собрать проект (находясь в директории short-url-app):
 ```bash
 docker build -t short-url-app .
 ```
