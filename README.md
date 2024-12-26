@@ -34,7 +34,7 @@ docker build -t todo-app .
 
 2. Запустить контейнер:
 ```bash
-docker run -d -p 8000:8000 -v todo-db:/app/data todo-appp:latest
+docker run -d -p 8000:8000 -v todo-db:/app/data todo-app:latest
 ```
 
 3. Перейти по ссылке:
